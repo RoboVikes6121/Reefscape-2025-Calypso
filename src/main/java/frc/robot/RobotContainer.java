@@ -14,10 +14,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.CommandSwerveDrivetrain;
+import frc.robot.commands.DropCoral;
+
+
 import frc.robot.constants.TunerConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubystem;
+import frc.robot.subsystems.WristSubsystem;
 
 public class RobotContainer {
+    
+    private final CommandXboxController operatorJoystick = new CommandXboxController(1);
+    private static final ElevatorSubsystem leaderElevatorMotor = new ElevatorSubsystem();
+    private static final ElevatorSubsystem followerElevatorMotor = new ElevatorSubsystem();
+    private static final IntakeSubystem intakeMotor = new IntakeSubystem();
+    private static final WristSubsystem wristMotor = new WristSubsystem();
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -66,6 +79,10 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        //Operator bindings
+        operatorJoystick.rightTrigger().whileTrue(new DropCoral(intakeMotor));
+        operatorJoystick.rightTrigger().whileFalse(new DropCoral(intakeMotor));
     }
 
     public Command getAutonomousCommand() {
