@@ -55,7 +55,6 @@ public ElevatorSubsystem() {
     motionMagicConfigs.MotionMagicJerk = 10;
 
 
-
     leaderElevatorMotor.getConfigurator().apply(talonFXConfigs);
     followerElevatorMotor.getConfigurator().apply(talonFXConfigs);
 
@@ -75,7 +74,7 @@ public void setPosition(double position){
 //code from 2024 Pivot subsystem
 //TrapezoidProfile.State m_setpoint= new TrapezoidProfile.State();
 
-//code from Phoenx 6 miton magic example
+//code from Phoenx 6 motion magic example
 final MotionMagicExpoVoltage m_request = new MotionMagicExpoVoltage(0);
 
 leaderElevatorMotor.setControl(m_request.withPosition(100));
