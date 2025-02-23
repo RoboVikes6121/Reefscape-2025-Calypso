@@ -28,7 +28,7 @@ public class RobotContainer {
     private final CommandXboxController operatorJoystick = new CommandXboxController(1);
     private static final ElevatorSubsystem leaderElevatorMotor = new ElevatorSubsystem();
     private static final ElevatorSubsystem followerElevatorMotor = new ElevatorSubsystem();
-    private static final IntakeSubystem intakeMotor = new IntakeSubystem();
+    private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
     private static final WristSubsystem wristMotor = new WristSubsystem();
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -42,6 +42,7 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
+
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -80,8 +81,10 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         //Operator bindings
-        operatorJoystick.rightTrigger().whileTrue(new DropCoral(intakeMotor));
-        operatorJoystick.rightTrigger().whileFalse(new DropCoral(intakeMotor));
+        operatorJoystick.rightBumper().whileTrue(new DropCoral(m_intakeMotor));
+        //operatorJoystick.rightTrigger().whileFalse(new DropCoral(intakeMotor));
+
+    
     }
 
     public Command getAutonomousCommand() {

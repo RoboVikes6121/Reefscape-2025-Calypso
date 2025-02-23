@@ -6,10 +6,12 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.ElevatorConstants;
 
@@ -67,5 +69,19 @@ public ElevatorSubsystem() {
     leaderElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
     followerElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
 }
+
+public void setPosition(double position){
+
+//code from 2024 Pivot subsystem
+//TrapezoidProfile.State m_setpoint= new TrapezoidProfile.State();
+
+//code from Phoenx 6 miton magic example
+final MotionMagicExpoVoltage m_request = new MotionMagicExpoVoltage(0);
+
+leaderElevatorMotor.setControl(m_request.withPosition(100));
+
+
+}
+
 
 }

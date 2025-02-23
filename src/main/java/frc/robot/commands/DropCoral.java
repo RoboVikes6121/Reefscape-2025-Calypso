@@ -5,14 +5,14 @@ import frc.robot.subsystems.IntakeSubystem;
 
 public class DropCoral extends Command {
 
-    IntakeSubystem intakeMotor;
-    double speed;
+    IntakeSubystem m_intakeMotor;
 
-    public DropCoral(IntakeSubystem intakeMotor, double speed) {
-        this.intakeMotor = intakeMotor;
-        this.speed = speed;
 
-        addRequirements(intakeMotor);
+    public DropCoral(IntakeSubystem m_intakeMotor) {
+        this.m_intakeMotor = m_intakeMotor;
+
+
+        addRequirements(m_intakeMotor);
     }
 
     // Called when the command is initially scheduled.
@@ -23,7 +23,7 @@ public class DropCoral extends Command {
   @Override
   public void execute() {
 
-  intakeMotor.DropCoral(speed);
+  m_intakeMotor.DropCoral();
 
 
 }
