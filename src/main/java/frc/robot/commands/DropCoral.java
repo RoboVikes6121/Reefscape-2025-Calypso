@@ -23,8 +23,8 @@ public class DropCoral extends Command {
   @Override
   public void execute() {
 
-  m_intakeMotor.DropCoral();
-
+  m_intakeMotor.dropCoral();
+ // m_intakeMotor.feedStop();
 
 }
   // Called once the command ends or is interrupted.

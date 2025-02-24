@@ -34,6 +34,6 @@ public class WristSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println("wrist: " + getWristPosition().in(Radian));
+        //System.out.println("wrist: " + getWristPosition().in(Radian));
     }
 }

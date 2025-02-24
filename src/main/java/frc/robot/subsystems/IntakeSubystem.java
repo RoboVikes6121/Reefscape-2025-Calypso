@@ -34,20 +34,20 @@ public class IntakeSubystem extends SubsystemBase {
     @Override
     public void periodic() {}
 
-    public void DropCoral() {
+    public void dropCoral() {
 
         //set voltage output
-        m_intakeMotor.setVoltage(10);
+        m_intakeMotor.setVoltage(-1);
     }
 
     public void algeaOut(){
 
         //Set Voltage output
 
-        m_intakeMotor.setVoltage(5);
+        m_intakeMotor.setVoltage(3);
     }
 
-    public void feedstop() {
+    public void feedStop() {
         
         m_intakeMotor.setVoltage(0);
     }

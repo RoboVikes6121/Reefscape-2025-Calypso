@@ -76,7 +76,7 @@ public void setPosition(double position){
 
 //code from Phoenx 6 motion magic example
 final MotionMagicExpoVoltage m_request = new MotionMagicExpoVoltage(0);
-
+// 0-100
 leaderElevatorMotor.setControl(m_request.withPosition(100));
 
 

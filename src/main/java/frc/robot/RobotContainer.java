@@ -17,9 +17,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DropCoral;
-
-
-
+import frc.robot.commands.L1Elevator;
+import frc.robot.commands.L2Elevator;
+import frc.robot.commands.L3Elevator;
+import frc.robot.commands.L4Elevator;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubystem;
@@ -91,12 +92,15 @@ public class RobotContainer {
 
         //Operator bindings
         m_operatorController.rightBumper().whileTrue(new DropCoral(m_intakeMotor));
-        //operatorJoystick.rightTrigger().whileFalse(new DropCoral(intakeMotor));
-
-    
+        //m_operatorController.rightTrigger().whileFalse(new feedStop(m_intakeMotor));
+        m_operatorController.a().onTrue(new L1Elevator(leaderElevatorMotor, null));
+        m_operatorController.x().onTrue(new L2Elevator(leaderElevatorMotor, null));
+        m_operatorController.b().onTrue(new L3Elevator(leaderElevatorMotor, null));
+        m_operatorController.y().onTrue(new L4Elevator(leaderElevatorMotor, null));
     }
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
     }
 }
+
