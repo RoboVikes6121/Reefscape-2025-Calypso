@@ -11,18 +11,11 @@ public class L1Elevator extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double elevatorPosition = 1;
-double speed;
+double L1elevatorPosition = 10;
 
-public L1Elevator(ElevatorSubsystem m_elevator, WristSubsystem m_wrist)
-{
-    // create a Motion Magic request, voltage output
-    final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
-
-
+public L1Elevator(ElevatorSubsystem m_elevator) {
 
     this.m_elevator = m_elevator; 
-    this.m_wrist = m_wrist;
 
     addRequirements(m_elevator);
 }
@@ -33,9 +26,8 @@ public void initialize() {}
 @Override
 public void execute() {
 
- // set target position to 100 rotations
-m_elevator.setControl(m_request.withPosition(100));
-//m_elevator.setPosition(elevatorPosition);
+    m_elevator.setPosition(L1elevatorPosition);
+
 }
 @Override
 public void end(boolean interrupted) {}

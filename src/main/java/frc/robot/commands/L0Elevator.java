@@ -1,21 +1,21 @@
-/*package frc.robot.commands;
+package frc.robot.commands;
+
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ElevatorSubsystemMM;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class L2Elevator extends Command {
+public class L0Elevator extends Command {
 
-ElevatorSubsystemMM m_elevator;
+ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double elevatorPosition = 10;
-double speed;
+double L1elevatorPosition = .1;
 
-public L2Elevator(ElevatorSubsystemMM m_elevator, WristSubsystem m_wrist)
-{
+public L0Elevator(ElevatorSubsystem m_elevator) {
+
     this.m_elevator = m_elevator; 
-    this.m_wrist = m_wrist;
 
     addRequirements(m_elevator);
 }
@@ -26,7 +26,8 @@ public void initialize() {}
 @Override
 public void execute() {
 
-m_elevator.setPosition(elevatorPosition);
+    m_elevator.setPosition(L1elevatorPosition);
+
 }
 @Override
 public void end(boolean interrupted) {}
@@ -37,4 +38,3 @@ public boolean isFinished() {
 
 }
 }
-*/
