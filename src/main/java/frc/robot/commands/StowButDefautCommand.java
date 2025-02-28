@@ -1,21 +1,22 @@
 package frc.robot.commands;
 
+import java.nio.channels.WritableByteChannel;
+
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class L1Elevator extends Command {
+public class StowButDefautCommand extends Command {
 
 ElevatorSubsystem m_elevator;
-WristSubsystem m_wrist;
 
-double L1elevatorPosition = 10;
+double L1elevatorPosition = .01;
 
-public L1Elevator(ElevatorSubsystem m_elevator) {
+public StowButDefautCommand(ElevatorSubsystem m_elevator) {
 
-    this.m_elevator = m_elevator; 
+    this.m_elevator = m_elevator;
 
     addRequirements(m_elevator);
 }

@@ -6,18 +6,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class L0Elevator extends Command {
+public class WristCenter extends Command {
 
-ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = .1;
+double wristCenterPosition = 4;
 
-public L0Elevator(ElevatorSubsystem m_elevator) {
+public WristCenter(WristSubsystem m_wrist) {
 
-    this.m_elevator = m_elevator; 
+    this.m_wrist = m_wrist; 
 
-    addRequirements(m_elevator);
+    addRequirements(m_wrist);
 }
 
 @Override
@@ -26,7 +25,7 @@ public void initialize() {}
 @Override
 public void execute() {
 
-    m_elevator.setPosition(L1elevatorPosition);
+    m_wrist.setPosition(wristCenterPosition);
 
 }
 @Override

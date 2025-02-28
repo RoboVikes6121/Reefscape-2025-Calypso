@@ -5,7 +5,6 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.IntakeConstants;
 
@@ -38,6 +37,11 @@ public class IntakeSubystem extends SubsystemBase {
 
         //set voltage output
         m_intakeMotor.setVoltage(-1);
+    }
+    public void InCoral() {
+
+        //set voltage output
+        m_intakeMotor.setVoltage(1);
     }
 
     public void algeaOut(){

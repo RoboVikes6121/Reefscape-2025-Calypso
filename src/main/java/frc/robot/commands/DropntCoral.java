@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubystem;
 
-public class DropCoral extends Command {
+public class DropntCoral extends Command {
 
     IntakeSubystem m_intakeMotor;
 
 
-    public DropCoral(IntakeSubystem m_intakeMotor) {
+    public DropntCoral(IntakeSubystem m_intakeMotor) {
         this.m_intakeMotor = m_intakeMotor;
 
 
@@ -23,7 +23,8 @@ public class DropCoral extends Command {
   @Override
   public void execute() {
 
-  m_intakeMotor.dropCoral();
+  m_intakeMotor.InCoral();
+ // m_intakeMotor.feedStop();
 
 }
   // Called once the command ends or is interrupted.
