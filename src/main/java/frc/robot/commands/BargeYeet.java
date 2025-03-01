@@ -6,17 +6,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class Barge extends Command {
+public class BargeYeet extends Command {
 
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
+double elevatorHeight = 45;
+double wristCenterPosition = 4.5;
 
-double L1elevatorPosition = 45;
-double wristPosition = 16.5;
-
-
-public Barge(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
+public BargeYeet(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
 
     this.m_elevator = m_elevator;
     this.m_wrist = m_wrist; 
@@ -30,8 +28,8 @@ public void initialize() {}
 @Override
 public void execute() {
 
-    m_elevator.setPosition(L1elevatorPosition);
-    m_wrist.setPosition(wristPosition);
+    m_elevator.setPosition(elevatorHeight);
+    m_wrist.setPosition(wristCenterPosition);
 
 }
 @Override

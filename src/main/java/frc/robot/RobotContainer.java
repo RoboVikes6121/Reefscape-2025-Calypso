@@ -26,6 +26,8 @@ import frc.robot.commands.AlgaeL2Elevator;
 import frc.robot.commands.AlgaeL3Elevator;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.Barge;
+import frc.robot.commands.BargeUnYeet;
+import frc.robot.commands.BargeYeet;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DropCoral;
 import frc.robot.commands.DropntCoral;
@@ -72,6 +74,8 @@ public class RobotContainer {
     
         public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     
+        
+        
         public RobotContainer() {
 
             //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
@@ -80,12 +84,10 @@ public class RobotContainer {
 
             configureBindings();
             //autoChooser =AutoBuilder.buildAutoChooser();
-            //SmartDashboard.putData("autoChooser", autoChooser);
+            //SmartDashboard.putData("Auto Chooser", autoChooser);
+          
         }
 
-        //public Command getAutonomousCommand() {
-        //    return autoChooser.getSelected();
-        //}
     
         private void configureBindings() {
             // Note that X is defined as forward according to WPILib convention,
@@ -123,22 +125,27 @@ public class RobotContainer {
 
             
             
-            m_operatorController.button(0).whileTrue(new DropCoral(m_intakeMotor));
-            //m_operatorController.leftTrigger().whileTrue(new DropntCoral(m_intakeMotor));
-            //m_operatorController.rightStick().onTrue(new Stow(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povUp().onTrue(new StowAlgae(leaderElevatorMotor, wristMotor));
-            //m_operatorController.leftStick().whileTrue(new WristInside(wristMotor));
-            //m_operatorController.povDown().onTrue(new L2Elevator(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povDown().onTrue(new AlgaeL2Elevator(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povLeft().onTrue(new L3Elevator(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povLeft().onTrue(new AlgaeL3Elevator(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povRight().onTrue(new L4Elevator(leaderElevatorMotor, wristMotor));
-            //m_operatorController.povRight().onTrue(new Barge(leaderElevatorMotor));
+            m_operatorController.button(1).whileTrue(new DropCoral(m_intakeMotor));
+            m_operatorController.button(2).whileTrue(new DropntCoral(m_intakeMotor));
+            m_operatorController.button(4).onTrue(new Stow(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(3).onTrue(new StowAlgae(leaderElevatorMotor, wristMotor));
+            m_operatorController.povDown().whileTrue(new WristInside(wristMotor));
+            m_operatorController.button(14).onTrue(new L2Elevator(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(8).onTrue(new AlgaeL2Elevator(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(15).onTrue(new L3Elevator(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(9).onTrue(new AlgaeL3Elevator(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(16).onTrue(new L4Elevator(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(10).onTrue(new Barge(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(5).onTrue(new BargeYeet(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(6).onTrue(new BargeUnYeet(leaderElevatorMotor, wristMotor));
             
             
             wristMotor.setDefaultCommand(new WristCenter(wristMotor));
             leaderElevatorMotor.setDefaultCommand(new StowButDefautCommand(leaderElevatorMotor));
             
+           // public Command getAutonomousCommand() {
+           //     return autoChooser.getSelected();
+           //   }
 
     }
 
