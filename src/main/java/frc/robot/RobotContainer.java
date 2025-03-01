@@ -49,10 +49,10 @@ import frc.robot.subsystems.LimelightHelpers;
 public class RobotContainer {
     
     private final CommandJoystick m_operatorController = new CommandJoystick(1);
-    private static final ElevatorSubsystem leaderElevatorMotor = new ElevatorSubsystem();
-    private static final ElevatorSubsystem followerElevatorMotor = new ElevatorSubsystem();
+    private static final ElevatorSubsystem m_leaderElevatorMotor = new ElevatorSubsystem();
+    private static final ElevatorSubsystem m_followerElevatorMotor = new ElevatorSubsystem();
     private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
-    private static final WristSubsystem wristMotor = new WristSubsystem();
+    private static final WristSubsystem m_wristMotor = new WristSubsystem();
     private SendableChooser<Command> autoChooser;
                 
                     private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
@@ -73,6 +73,8 @@ public class RobotContainer {
                     private final CommandXboxController m_driverController = new CommandXboxController(0);
                 
                     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+                    private final VisionSubsystem m_VisionSubsystem= new VisionSubsystem();
                 
                     
                     
@@ -87,8 +89,8 @@ public class RobotContainer {
                         );
             
                         NamedCommands.registerCommand("comp DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
-                        NamedCommands.registerCommand("comp Stow", new Stow(leaderElevatorMotor, wristMotor).withTimeout(2));
-                        NamedCommands.registerCommand("comp L2Elevtor", new L2Elevator(leaderElevatorMotor, wristMotor).withTimeout(2));
+                        NamedCommands.registerCommand("comp Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
+                        NamedCommands.registerCommand("comp L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
             
                         configureBindings();
                         autoChooser = AutoBuilder.buildAutoChooser();
@@ -132,21 +134,21 @@ public class RobotContainer {
             //Operator bindings 
             m_operatorController.button(1).whileTrue(new DropCoral(m_intakeMotor));
             m_operatorController.button(2).whileTrue(new DropntCoral(m_intakeMotor));
-            m_operatorController.button(4).onTrue(new Stow(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(3).onTrue(new StowAlgae(leaderElevatorMotor, wristMotor));
-            m_operatorController.povDown().whileTrue(new WristInside(wristMotor));
-            m_operatorController.button(14).onTrue(new L2Elevator(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(8).onTrue(new AlgaeL2Elevator(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(15).onTrue(new L3Elevator(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(9).onTrue(new AlgaeL3Elevator(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(16).onTrue(new L4Elevator(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(10).onTrue(new Barge(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(5).onTrue(new BargeYeet(leaderElevatorMotor, wristMotor));
-            m_operatorController.button(6).onTrue(new BargeUnYeet(leaderElevatorMotor, wristMotor));
+            m_operatorController.button(4).onTrue(new Stow(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(3).onTrue(new StowAlgae(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.povDown().whileTrue(new WristInside(m_wristMotor));
+            m_operatorController.button(14).onTrue(new L2Elevator(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(8).onTrue(new AlgaeL2Elevator(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(15).onTrue(new L3Elevator(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(9).onTrue(new AlgaeL3Elevator(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(16).onTrue(new L4Elevator(m_leaderElevatorMotor,m_wristMotor));
+            m_operatorController.button(10).onTrue(new Barge(m_leaderElevatorMotor, m_wristMotor));
+            m_operatorController.button(5).onTrue(new BargeYeet(m_leaderElevatorMotor,m_wristMotor));
+            m_operatorController.button(6).onTrue(new BargeUnYeet(m_leaderElevatorMotor,m_wristMotor));
             
             
-            wristMotor.setDefaultCommand(new WristCenter(wristMotor));
-            leaderElevatorMotor.setDefaultCommand(new StowButDefautCommand(leaderElevatorMotor));
+            m_wristMotor.setDefaultCommand(new WristCenter(m_wristMotor));
+            m_leaderElevatorMotor.setDefaultCommand(new StowButDefautCommand(m_leaderElevatorMotor));
             
            
 
