@@ -31,7 +31,6 @@ import frc.robot.commands.BargeYeet;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DropCoral;
 import frc.robot.commands.DropntCoral;
-import frc.robot.commands.DropntCoral;
 import frc.robot.commands.Stow;
 import frc.robot.commands.StowAlgae;
 import frc.robot.commands.StowButDefautCommand;
@@ -45,6 +44,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.LimelightHelpers;
 
 public class RobotContainer {
     
@@ -53,38 +53,46 @@ public class RobotContainer {
     private static final ElevatorSubsystem followerElevatorMotor = new ElevatorSubsystem();
     private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
     private static final WristSubsystem wristMotor = new WristSubsystem();
-    //private final SendableChooser<Command> autoChooser;
-    
-        private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
-        private final VisionSubsystem m_vision = new VisionSubsystem();
-    
-        private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-        private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-    
-        /* Setting up bindings for necessary control of the swerve drive platform */
-        private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-                .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-        private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-        private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    
-        private final Telemetry logger = new Telemetry(MaxSpeed);
-    
-        private final CommandXboxController m_driverController = new CommandXboxController(0);
-    
-        public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    
-        
-        
-        public RobotContainer() {
-
-            //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
-            //NamedCommands.registerCommand("L0Elevtor", new L0Elevator(leaderElevatorMotor, wristMotor).withTimeout(2));
-            //NamedCommands.registerCommand("L1Elevtor", new L1Elevator(leaderElevatorMotor, wristMotor).withTimeout(2));
-
-            configureBindings();
-            //autoChooser =AutoBuilder.buildAutoChooser();
-            //SmartDashboard.putData("Auto Chooser", autoChooser);
+    private SendableChooser<Command> autoChooser;
+                
+                    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
+                    private final VisionSubsystem m_vision = new VisionSubsystem();
+                
+                    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+                    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+                
+                    /* Setting up bindings for necessary control of the swerve drive platform */
+                    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+                            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+                            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+                    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+                    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+                
+                    private final Telemetry logger = new Telemetry(MaxSpeed);
+                
+                    private final CommandXboxController m_driverController = new CommandXboxController(0);
+                
+                    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+                
+                    
+                    
+                    public RobotContainer() {
+            
+                        boolean isCompetition = true;
+            
+                        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+                            (stream) -> isCompetition
+                            ? stream.filter(auto -> auto.getName().startsWith("comp"))
+                            : stream
+                        );
+            
+                        NamedCommands.registerCommand("comp DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
+                        NamedCommands.registerCommand("comp Stow", new Stow(leaderElevatorMotor, wristMotor).withTimeout(2));
+                        NamedCommands.registerCommand("comp L2Elevtor", new L2Elevator(leaderElevatorMotor, wristMotor).withTimeout(2));
+            
+                        configureBindings();
+                        autoChooser = AutoBuilder.buildAutoChooser();
+            SmartDashboard.putData("Auto Chooser", autoChooser);
           
         }
 
@@ -121,10 +129,7 @@ public class RobotContainer {
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
-            //Operator bindings
-
-            
-            
+            //Operator bindings 
             m_operatorController.button(1).whileTrue(new DropCoral(m_intakeMotor));
             m_operatorController.button(2).whileTrue(new DropntCoral(m_intakeMotor));
             m_operatorController.button(4).onTrue(new Stow(leaderElevatorMotor, wristMotor));
@@ -143,11 +148,14 @@ public class RobotContainer {
             wristMotor.setDefaultCommand(new WristCenter(wristMotor));
             leaderElevatorMotor.setDefaultCommand(new StowButDefautCommand(leaderElevatorMotor));
             
-           // public Command getAutonomousCommand() {
-           //     return autoChooser.getSelected();
-           //   }
+           
 
     }
+
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+      }
+
 
 }
 
