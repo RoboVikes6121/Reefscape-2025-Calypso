@@ -18,23 +18,22 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public void config() {
-    //Enable if fps is an issue
-    // LimelightHelpers.setCropWindow("", -0.5, 0.5, -0.5, 0.5);
+  
 
     LimelightHelpers.setCameraPose_RobotSpace( // maybe put in consts.java
-        "",
+        "limelight",
         0.26035, 
         0.3175,
         0.3048,
         0,
         -0.5,
         0);
-    LimelightHelpers.SetFiducialIDFiltersOverride("", new int[] {0,1,3,5,6,8,9,10,11,12});
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", new int[] {0,1,3,5,6,8,9,10,11,12});
   }
 
   @Override
   public void periodic() {
-    fiducials = LimelightHelpers.getRawFiducials("");
+    fiducials = LimelightHelpers.getRawFiducials("limelight");
 
   }
   public RawFiducial getClosestFiducial() {

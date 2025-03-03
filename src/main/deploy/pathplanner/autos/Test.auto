@@ -5,15 +5,16 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Stow"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Example Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Example Path"
+                }
+              }
+            ]
           }
         }
       ]

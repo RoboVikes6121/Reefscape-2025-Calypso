@@ -46,7 +46,7 @@ public ElevatorSubsystem() {
 
  leaderElevatorMotor.getConfigurator().apply(elevatorFeedbackConfigs);
 
-    elevatorCurrentLimits.withStatorCurrentLimit(80);
+    elevatorCurrentLimits.withStatorCurrentLimit(75); //80 max for all
     elevatorCurrentLimits.withStatorCurrentLimitEnable(true);
 
     leaderElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);

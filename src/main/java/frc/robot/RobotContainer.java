@@ -55,46 +55,45 @@ public class RobotContainer {
     private static final WristSubsystem m_wristMotor = new WristSubsystem();
     private SendableChooser<Command> autoChooser;
                 
-                    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
-                    private final VisionSubsystem m_vision = new VisionSubsystem();
+    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
+    private final VisionSubsystem m_vision = new VisionSubsystem();
                 
-                    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-                    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
                 
-                    /* Setting up bindings for necessary control of the swerve drive platform */
-                    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-                            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-                    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-                    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+     /* Setting up bindings for necessary control of the swerve drive platform */
+     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+        .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
                 
-                    private final Telemetry logger = new Telemetry(MaxSpeed);
+    private final Telemetry logger = new Telemetry(MaxSpeed);
                 
-                    private final CommandXboxController m_driverController = new CommandXboxController(0);
+    private final CommandXboxController m_driverController = new CommandXboxController(0);
                 
-                    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-                    private final VisionSubsystem m_VisionSubsystem= new VisionSubsystem();
                 
                     
                     
-                    public RobotContainer() {
+     public RobotContainer() {
             
-                        boolean isCompetition = true;
+         boolean isCompetition = true;
             
-                        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-                            (stream) -> isCompetition
-                            ? stream.filter(auto -> auto.getName().startsWith("comp"))
-                            : stream
-                        );
+        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+         (stream) -> isCompetition
+        ? stream.filter(auto -> auto.getName().startsWith("comp"))
+        : stream
+        );
             
-                        NamedCommands.registerCommand("comp DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
-                        NamedCommands.registerCommand("comp Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
-                        NamedCommands.registerCommand("comp L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
+       //NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
+        //NamedCommands.registerCommand("L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
             
-                        configureBindings();
-                        autoChooser = AutoBuilder.buildAutoChooser();
-            SmartDashboard.putData("Auto Chooser", autoChooser);
+         configureBindings();
+         autoChooser = AutoBuilder.buildAutoChooser();
+         SmartDashboard.putData("Auto Chooser", autoChooser);
           
         }
 
@@ -127,7 +126,7 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.x().whileTrue(new AlignCommand(m_drivetrain, m_vision));
+           // m_driverController.x().whileTrue(new AlignCommand(m_drivetrain, m_vision));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
@@ -155,6 +154,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        //Run the path selected from the auto chooser
         return autoChooser.getSelected();
       }
 

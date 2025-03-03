@@ -45,7 +45,7 @@ public class WristSubsystem extends SubsystemBase {
 
     wristMotor.getConfigurator().apply(wristFeedbackConfigs);
 
-    wristCurrentLimits.withStatorCurrentLimit(120);//to do set hight if necessary
+    wristCurrentLimits.withStatorCurrentLimit(100);//to do set hight if necessary
     wristCurrentLimits.withStatorCurrentLimitEnable(true);
     wristMotor.getConfigurator().apply(wristCurrentLimits);
     }
@@ -69,6 +69,6 @@ public class WristSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //System.out.println("wrist: " + getWristPosition().in(Radian));
+        
     }
 }
