@@ -55,8 +55,8 @@ public class RobotContainer {
     private static final WristSubsystem m_wristMotor = new WristSubsystem();
     private SendableChooser<Command> autoChooser;
                 
-    private final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
-    private final VisionSubsystem m_vision = new VisionSubsystem();
+    private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+    
                 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -72,9 +72,9 @@ public class RobotContainer {
                 
     private final CommandXboxController m_driverController = new CommandXboxController(0);
                 
-     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();        
 
-                
+     private final Command alignCommand = new AlignCommand(m_visionSubsystem, drivetrain, 0.35, 0);
                     
                     
      public RobotContainer() {
@@ -88,8 +88,8 @@ public class RobotContainer {
         );
             
         //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
-       //NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
-        //NamedCommands.registerCommand("L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        //NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
+         //NamedCommands.registerCommand("L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
             
          configureBindings();
          autoChooser = AutoBuilder.buildAutoChooser();
@@ -103,11 +103,14 @@ public class RobotContainer {
             // and Y is defined as to the left according to WPILib convention.
             drivetrain.setDefaultCommand(
                 // Drivetrain will execute this command periodically
-                drivetrain.applyRequest(() ->
-                    drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                drivetrain.applyRequest(() -> {
+                if (!alignCommand.isScheduled()) {
+                    return drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-                )
+                        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
+                    }
+                    return drive.withVelocityX(0).withVelocityY(0).withRotationalRate(0);
+                })
             );
     
             m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -126,7 +129,7 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-           // m_driverController.x().whileTrue(new AlignCommand(m_drivetrain, m_vision));
+            m_driverController.x().whileTrue(alignCommand);
     
             drivetrain.registerTelemetry(logger::telemeterize);
     

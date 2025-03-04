@@ -1,113 +1,154 @@
 package frc.robot.commands;
 
 import static edu.wpi.first.units.Units.*;
-import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.VisionConstants;
-import frc.robot.constants.TunerConstants;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.LimelightHelpers.RawFiducial;
-import edu.wpi.first.math.controller.PIDController;
-class PIDControllerConfigurable extends PIDController {
-  public PIDControllerConfigurable(double kP, double kI, double kD) {
-      super(kP, kI, kD);
-  }
-  
-  public PIDControllerConfigurable(double kP, double kI, double kD, double tolerance) {
-      super(kP, kI, kD);
-      this.setTolerance(tolerance);
-  }
-}
+
+import frc.robot.constants.TunerConstants;
+
 public class AlignCommand extends Command {
-  private final CommandSwerveDrivetrain m_drivetrain;
-  private final VisionSubsystem m_Limelight;
+    private final VisionSubsystem m_Vision;
+    private final CommandSwerveDrivetrain m_Swerve;
+    private final SwerveRequest.RobotCentric m_alignRequest;
 
-  
-  private static final PIDControllerConfigurable rotationalPidController = new PIDControllerConfigurable(VisionConstants.ROTATE_P, VisionConstants.ROTATE_I, VisionConstants.ROTATE_D, VisionConstants.TOLERANCE);
-  private static final PIDControllerConfigurable xPidController = new PIDControllerConfigurable(VisionConstants.MOVE_P, VisionConstants.MOVE_I, VisionConstants.MOVE_D, VisionConstants.TOLERANCE);
+    private final double MaxSpeed;
+    private final double MaxAngularRate;
 
-  
+    private final double targetDistance; // Desired distance from the tag
+    private final double targetAngle; // Desired angle relative to the tag
 
-  private static final SwerveRequest.RobotCentric alignRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-  private static final SwerveRequest.Idle idleRequest = new SwerveRequest.Idle();
-  private static int tagID = -1;
-  
-  public double rotationalRate = 0;
-  public double velocityX = 0;
+    private static final double kP_aim = 0.005; // Proportional gain for aiming
+    private static final double kP_range = -0.1; // Proportional gain for ranging
+    private static final double kP_horizontal = 0.05; // Reduced proportional gain for horizontal movement
+    private static final double distanceTolerance = 0.1; // Tolerance for distance in meters
+    private static final double angleTolerance = 1.0; // Degrees tolerance for alignment
 
-  //use whatever fiducial is closest
-  public AlignCommand(CommandSwerveDrivetrain drivetrain, VisionSubsystem limelight) {
-    this.m_drivetrain = drivetrain;
-    this.m_Limelight = limelight;
-    addRequirements(m_Limelight);
-  }
+    private double lastValidTargetTX = 0.0;
+    private double lastValidTargetTY = 0.0;
 
-  //Overload for specific april tag by id
-
-  public AlignCommand(CommandSwerveDrivetrain drivetrain, VisionSubsystem limelight, int ID) throws IllegalArgumentException{
-    this.m_drivetrain = drivetrain;
-    this.m_Limelight = limelight;
-    if (ID<0){throw new IllegalArgumentException("april tag id cannot be negative");}
-    tagID = ID;
-    addRequirements(m_Limelight);
-  }
-
-  //maybe set tagid by closest here instead of each execution to keep same tag
-  @Override
-  public void initialize() {}
-
-  @Override
-  public void execute() {
+    private double lastValidTargetAngle = 0.0;
+    private double lastHorizontalAdjust = 0.0; // Last horizontal adjustment for smoothing
     
-    RawFiducial fiducial; //Tracked fiducual 
+    private final Timer lostDetectionTimer = new Timer();
+    private static final double lostDetectionTimeout = 0.5; // 0.5 seconds timeout for lost detection
 
-    try {
-      if (tagID==-1){
-        fiducial = m_Limelight.getFiducialWithId(m_Limelight.getClosestFiducial().id);
-      }
-      else{
-        fiducial = m_Limelight.getFiducialWithId(tagID);
-      }
-       
-
-      rotationalRate = rotationalPidController.calculate(fiducial.txnc, 0.0) * RotationsPerSecond.of(0.75).in(RadiansPerSecond) * 0.9; // Max speed is 90 percnet of max rotate
-      
-      final double velocityX = xPidController.calculate(fiducial.distToRobot, 0.5) * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond) * 0.7; //Max speed is 70 percnet of max drive
-        
-      if (rotationalPidController.atSetpoint() && xPidController.atSetpoint()) { //At target dist
-        this.end(true);
-      }
-
-      SmartDashboard.putNumber("txnc", fiducial.txnc);
-      SmartDashboard.putNumber("distToRobot", fiducial.distToRobot);
-      SmartDashboard.putNumber("rotationalPidController", rotationalRate);
-      SmartDashboard.putNumber("xPidController", velocityX);
-
-      m_drivetrain.setControl(
-          alignRequest.withRotationalRate(-rotationalRate).withVelocityX(-velocityX));
-
-    } catch (VisionSubsystem.NoSuchTargetException nste) { 
-      System.out.println("No apriltag found");
-      if ((rotationalRate != 0) && (velocityX != 0)){ //Todo - don't move after x seconds without seeing fiducial
-        m_drivetrain.setControl(
-          alignRequest.withRotationalRate(-rotationalRate).withVelocityX(-velocityX)); //Continue moving after losing sight temporarily 
-        }
-      }
-      
+    public AlignCommand(VisionSubsystem vision, CommandSwerveDrivetrain swerve, double targetDistance, double targetAngle) {
+        m_Vision = vision;
+        m_Swerve = swerve;
+        this.targetDistance = targetDistance;
+        this.targetAngle = targetAngle;
+        m_alignRequest = new SwerveRequest.RobotCentric()
+            .withDeadband(0.1)
+            .withRotationalDeadband(0.1)
+            .withDriveRequestType(DriveRequestType.Velocity)
+            .withSteerRequestType(SteerRequestType.MotionMagicExpo);
+        MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond) * 0.5;
+        MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond) * 0.5;
+        addRequirements(m_Vision, m_Swerve);
     }
-  
 
-  @Override
-  public boolean isFinished() {
-    return rotationalPidController.atSetpoint() && xPidController.atSetpoint();
-  }
+    @Override
+    public void initialize() {
+        System.out.println("AlignCommand initialized");
+        lostDetectionTimer.reset();
+        lostDetectionTimer.start();
+    }
 
-  @Override
-  public void end(boolean interrupted) {
-    m_drivetrain.applyRequest(() -> idleRequest);
-    
-  }
+    @Override
+    public void execute() {
+        double currentTargetTX = m_Vision.getTargetTX();
+        double currentTargetTY = m_Vision.getTargetTY();
+        double currentTargetAngle = m_Vision.getTargetAngle();
+
+        if (currentTargetTX != 0.0 || currentTargetTY != 0.0 || currentTargetAngle != 0.0) {
+            lastValidTargetTX = currentTargetTX;
+            lastValidTargetTY = currentTargetTY;
+            lastValidTargetAngle = currentTargetAngle;
+            lostDetectionTimer.reset();
+        } else if (lostDetectionTimer.get() < lostDetectionTimeout) {
+            currentTargetTX = lastValidTargetTX;
+            currentTargetTY = lastValidTargetTY;
+            currentTargetAngle = lastValidTargetAngle;
+        } else {
+            currentTargetTX = 0.0;
+            currentTargetTY = 0.0;
+            currentTargetAngle = 0.0;
+        }
+
+        double distanceError = targetDistance - currentTargetTY;
+        double horizontalError = -currentTargetTX; // Invert TX for horizontal adjustment
+        double distanceAdjust = limelight_range_proportional(distanceError);
+        double horizontalAdjust = horizontalError * kP_horizontal;
+        
+        // Smoothing the horizontal adjustment to prevent jerky movement
+        horizontalAdjust = (horizontalAdjust + lastHorizontalAdjust) / 2;
+        lastHorizontalAdjust = horizontalAdjust;
+
+        // Slow down the robot as it approaches the target
+        // double speedFactor = Math.min(1.0, 2/Math.abs(distanceError / targetDistance));
+        // distanceAdjust *= speedFactor;
+        // horizontalAdjust *= speedFactor;
+
+        double angleError = currentTargetAngle - targetAngle;
+        double steeringAdjust = limelight_aim_proportional(angleError);
+
+        System.out.println("AlignCommand executing");
+        System.out.println("Distance Adjust: " + distanceAdjust);
+        System.out.println("Horizontal Adjust: " + horizontalAdjust);
+        System.out.println("Steering Adjust: " + steeringAdjust);
+
+        m_Swerve.setControl(
+            m_alignRequest
+                .withVelocityX(distanceAdjust)  // Forward/backward movement
+                .withVelocityY(horizontalAdjust) // Horizontal (lateral) movement
+                .withRotationalRate(steeringAdjust) // Rotational correction
+        );
+
+        System.out.println("Control Set:");
+        System.out.println("VelocityX: " + distanceAdjust);
+        System.out.println("VelocityY: " + horizontalAdjust);
+        System.out.println("RotationalRate: " + steeringAdjust);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return Math.abs(lastValidTargetTY - targetDistance) < distanceTolerance && Math.abs(lastValidTargetAngle - targetAngle) < angleTolerance;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        System.out.println("AlignCommand ended");
+        m_Swerve.setControl(
+            m_alignRequest
+                .withVelocityX(0)
+                .withVelocityY(0)
+                .withRotationalRate(0)
+        );
+        lostDetectionTimer.stop();
+    }
+
+    // Simple proportional turning control with Limelight
+    double limelight_aim_proportional(double angleError) {
+        double targetingAngularVelocity = angleError * kP_aim;
+        System.out.println("Calculated targetingAngularVelocity: " + targetingAngularVelocity);
+        targetingAngularVelocity *= MaxAngularRate;
+        targetingAngularVelocity *= -1.0;
+        return targetingAngularVelocity;
+    }
+
+    // Simple proportional ranging control with Limelight's "ty" value
+    double limelight_range_proportional(double distanceError) {
+        double targetingForwardSpeed = distanceError * kP_range;
+        System.out.println("Calculated targetingForwardSpeed: " + targetingForwardSpeed);
+        targetingForwardSpeed *= MaxSpeed;
+        targetingForwardSpeed *= -1.0;
+        return targetingForwardSpeed;
+    }
 }
