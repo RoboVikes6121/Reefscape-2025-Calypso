@@ -14,8 +14,8 @@ import frc.robot.constants.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-    TalonFX leaderElevatorMotor;
-    TalonFX followerElevatorMotor;
+    TalonFX m_leaderElevatorMotor;
+    TalonFX m_followerElevatorMotor;
     FeedbackConfigs elevatorFeedbackConfigs = new FeedbackConfigs();
     CurrentLimitsConfigs elevatorCurrentLimits = new CurrentLimitsConfigs();
 
@@ -23,11 +23,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 public ElevatorSubsystem() {
 
-    leaderElevatorMotor = new TalonFX(ElevatorConstants.leaderElevatorMotorId, "Canivore");
-    followerElevatorMotor = new TalonFX(ElevatorConstants.followerElevatorMotorId, "Canivore");
+    m_leaderElevatorMotor = new TalonFX(ElevatorConstants.leaderElevatorMotorId, "Canivore");
+    m_followerElevatorMotor = new TalonFX(ElevatorConstants.followerElevatorMotorId, "Canivore");
 
-    leaderElevatorMotor.getConfigurator().apply(new TalonFXConfiguration());
-    followerElevatorMotor.getConfigurator().apply(new TalonFXConfiguration());
+    m_leaderElevatorMotor.getConfigurator().apply(new TalonFXConfiguration());
+    m_followerElevatorMotor.getConfigurator().apply(new TalonFXConfiguration());
 
     var slot0Configs = new Slot0Configs();
     
@@ -39,18 +39,18 @@ public ElevatorSubsystem() {
     slot0Configs.kI = ElevatorConstants.kI;
     slot0Configs.kD = ElevatorConstants.kD;
 
-    leaderElevatorMotor.getConfigurator().apply(slot0Configs);
-    followerElevatorMotor.getConfigurator().apply(slot0Configs);
+    m_leaderElevatorMotor.getConfigurator().apply(slot0Configs);
+    m_followerElevatorMotor.getConfigurator().apply(slot0Configs);
 
- elevatorFeedbackConfigs.withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
+    elevatorFeedbackConfigs.withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
 
- leaderElevatorMotor.getConfigurator().apply(elevatorFeedbackConfigs);
+    m_leaderElevatorMotor.getConfigurator().apply(elevatorFeedbackConfigs);
 
     elevatorCurrentLimits.withStatorCurrentLimit(75); //80 max for all
     elevatorCurrentLimits.withStatorCurrentLimitEnable(true);
 
-    leaderElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
-    followerElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
+    m_leaderElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
+    m_followerElevatorMotor.getConfigurator().apply(elevatorCurrentLimits);
 
 }
 public void setPosition(double position) {
@@ -59,8 +59,8 @@ public void setPosition(double position) {
 
     m_request.Position = m_setpoint.position; 
     m_request.Velocity = m_setpoint.velocity; 
-    leaderElevatorMotor.setControl(m_request.withPosition(position).withSlot(0));
-    followerElevatorMotor.setControl(m_request.withPosition(position).withSlot(0));
+    m_leaderElevatorMotor.setControl(m_request.withPosition(position).withSlot(0));
+    m_followerElevatorMotor.setControl(m_request.withPosition(position).withSlot(0));
 }
 
 public void elevatorDiagnostics(){
