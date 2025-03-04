@@ -10,7 +10,7 @@ public class Stow extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = .15;
+double L1elevatorPosition = .0;
 double wristCenterPosition = 2;
 
 public Stow(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {

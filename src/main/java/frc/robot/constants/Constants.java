@@ -9,13 +9,13 @@ public class Constants {
     public static class ElevatorConstants {
         public static final int leaderElevatorMotorId = 21;
         public static final int followerElevatorMotorId = 22;
-        public static final double kP = .175;
-        public static final double kI = .05;
+        public static final double kP = .3;
+        public static final double kI = .0;
         public static final double kD = .0;
         public static final double kS = .0;
         public static final double kV = .0;
-        public static final double kA = .0;
-        public static final double kG = .35;
+        public static final double kA = .1;
+        public static final double kG = .5;
     }
 
     public static class WristConstants {
