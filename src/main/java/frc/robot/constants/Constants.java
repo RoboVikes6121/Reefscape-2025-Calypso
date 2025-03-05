@@ -14,14 +14,14 @@ public class Constants {
         public static final double kD = .0;
         public static final double kS = .0;
         public static final double kV = .0;
-        public static final double kA = .1;
-        public static final double kG = .5;
+        public static final double kA = 0;
+        public static final double kG = .1;
     }
 
     public static class WristConstants {
         public static final int WristMotorId = 31;
         public static final double GEAR_RATIO = 2.5;
-        public static final double kP = .25;
+        public static final double kP = .5;
         public static final double kI = .0;
         public static final double kD = .0;
     }

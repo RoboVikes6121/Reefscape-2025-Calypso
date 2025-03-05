@@ -1,37 +1,117 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.LimelightHelpers;
+import frc.robot.subsystems.LimelightHelpers.*;
 
 public class VisionSubsystem extends SubsystemBase {
-    public VisionSubsystem() {
-        // Initialize the Limelight here
+  private RawFiducial[] fiducials;
+
+  public VisionSubsystem() {
+    config();
+  }
+
+  public static class NoSuchTargetException extends RuntimeException { //No fiducial fonund
+    public NoSuchTargetException(String message) {
+      super(message);
+    }
+  }
+
+  public void config() {
+    
+
+    LimelightHelpers.setCameraPose_RobotSpace( // maybe put in consts.java
+        "",
+        0.26035, 
+        0.3175,
+        0.3048,
+        0,
+        -0.5,
+        0);
+    //LimelightHelpers.SetFiducialIDFiltersOverride("", new int[] {0,1,3,5,6,8,9,10,11,12});
+
+    SmartDashboard.putNumber("Rotate P",0.0);
+    SmartDashboard.putNumber("Rotate D",0.0);
+
+  }
+
+  @Override
+  public void periodic() {
+    fiducials = LimelightHelpers.getRawFiducials("limelight");
+  }
+  public RawFiducial getClosestFiducial() {
+    if (fiducials == null || fiducials.length == 0) {
+        throw new NoSuchTargetException("No fiducials found.");
     }
 
-    public double getTargetAngle() {
-        return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tx").getDouble(0.0);
+    RawFiducial closest = fiducials[0];
+    double minDistance = closest.ta;
+    //Linear search for close
+    for (RawFiducial fiducial : fiducials) {
+        if (fiducial.ta > minDistance) {
+            closest = fiducial;
+            minDistance = fiducial.ta;
+        }
     }
+    return closest;
+  }
 
-    public double getTargetTY() {
-        return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ty").getDouble(0.0);
+  //Linear searcgh by id
+  public RawFiducial getFiducialWithId(int id) {
+  
+    for (RawFiducial fiducial : fiducials) {
+        if (fiducial.id == id) {
+            return fiducial;
+        }
     }
+    throw new NoSuchTargetException("Can't find ID: " + id);
+  }
 
-    public double getTargetTX() {
-        return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tx").getDouble(0.0);
-    }
+public RawFiducial getFiducialWithId(int id, boolean verbose) {//Debug
+  StringBuilder availableIds = new StringBuilder();
 
-    public double[] get3DPose() {
-        return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("camtran").getDoubleArray(new double[6]);
-    }
+  for (RawFiducial fiducial : fiducials) {
+      if (availableIds.length() > 0) {
+          availableIds.append(", ");
+      } //Error reporting
+      availableIds.append(fiducial.id);
+      
+      if (fiducial.id == id) {
+          return fiducial;
+      }
+  }
+  throw new NoSuchTargetException("Cannot find: " + id + ". IN view:: " + availableIds.toString());
+  }
+
+  //Get values
+  public double getTX(){
+    return LimelightHelpers.getTX(VisionConstants.LIMELIGHT_NAME);
+  }
+  public double getTY(){
+    return LimelightHelpers.getTY(VisionConstants.LIMELIGHT_NAME);
+  }
+  public double getTA(){
+    return LimelightHelpers.getTA(VisionConstants.LIMELIGHT_NAME);
+  }
+  public boolean getTV(){
+    return LimelightHelpers.getTV(VisionConstants.LIMELIGHT_NAME);
+  }
+
+  public double getClosestTX(){
+    return getClosestFiducial().txnc;
+  }
+  public double getClosestTY(){
+    return getClosestFiducial().tync;
+  }
+  public double getClosestTA(){
+    return getClosestFiducial().ta;
+  }
+
+  public double getID_TX(int ID){
+    return getFiducialWithId(ID).txnc;
+  }
+  public double getID_TY(int ID){
+    return getFiducialWithId(ID).tync;
+  }
 }
-
-
