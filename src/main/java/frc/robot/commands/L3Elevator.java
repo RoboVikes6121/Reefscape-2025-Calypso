@@ -11,8 +11,8 @@ public class L3Elevator extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = 22;//change this veriable later
-double wristPosition = 5;
+double L1elevatorPosition = 21;//change this veriable later
+double wristPosition = 4;
 
 public L3Elevator(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
 

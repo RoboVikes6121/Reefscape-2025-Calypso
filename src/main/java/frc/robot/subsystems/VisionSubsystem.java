@@ -29,7 +29,7 @@ public class VisionSubsystem extends SubsystemBase {
         0,
         -0.5,
         0);
-    //LimelightHelpers.SetFiducialIDFiltersOverride("", new int[] {0,1,3,5,6,8,9,10,11,12});
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", new int[] {0,1,3,5,6,8,9,10,11,12});
 
     SmartDashboard.putNumber("Rotate P",0.0);
     SmartDashboard.putNumber("Rotate D",0.0);

@@ -14,7 +14,7 @@ ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
 double L1elevatorPosition = .0;
-double wristCenterPosition = 16.5;
+double wristCenterPosition = 17;
 
 public StowAlgae(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
 

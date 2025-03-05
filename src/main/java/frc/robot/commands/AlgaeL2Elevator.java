@@ -11,7 +11,7 @@ public class AlgaeL2Elevator extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = 13;
+double L1elevatorPosition = 12.5;
 double wristPosition = 16.5;
 
 public AlgaeL2Elevator(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {

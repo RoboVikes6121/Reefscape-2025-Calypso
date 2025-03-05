@@ -31,6 +31,7 @@ import frc.robot.commands.BargeYeet;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DropCoral;
 import frc.robot.commands.DropntCoral;
+import frc.robot.commands.AlgaeOut;
 import frc.robot.commands.Stow;
 import frc.robot.commands.StowAlgae;
 import frc.robot.commands.StowButDefautCommand;
@@ -88,8 +89,8 @@ public class RobotContainer {
         );
             
         //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
-        //NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
-         //NamedCommands.registerCommand("L2Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("L4Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
             
          configureBindings();
          autoChooser = AutoBuilder.buildAutoChooser();
@@ -126,12 +127,13 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.x().whileTrue(new AlignCommand(drivetrain, m_visionSubsystem));
+            //m_driverController.x().whileTrue(new AlignCommand(drivetrain, m_visionSubsystem));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
             //Operator bindings 
             m_operatorController.button(1).whileTrue(new DropCoral(m_intakeMotor));
+            m_operatorController.button(7).whileTrue(new AlgaeOut(m_intakeMotor));
             m_operatorController.button(2).whileTrue(new DropntCoral(m_intakeMotor));
             m_operatorController.button(4).onTrue(new Stow(m_leaderElevatorMotor, m_wristMotor));
             m_operatorController.button(3).onTrue(new StowAlgae(m_leaderElevatorMotor, m_wristMotor));

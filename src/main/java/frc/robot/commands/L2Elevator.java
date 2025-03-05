@@ -11,7 +11,7 @@ public class L2Elevator extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = 10;
+double L1elevatorPosition = 11;
 double wristPosition = 5;
 
 public L2Elevator(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
