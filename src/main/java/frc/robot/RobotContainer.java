@@ -80,18 +80,13 @@ public class RobotContainer {
                     
      public RobotContainer() {
             
-         boolean isCompetition = true;
+    
             
-        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-         (stream) -> isCompetition
-        ? stream.filter(auto -> auto.getName().startsWith("comp"))
-        : stream
-        );
-            
-        //NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
+        NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
         NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
-        NamedCommands.registerCommand("L4Elevtor", new L2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
-            
+        NamedCommands.registerCommand("L4Elevtor", new L4Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        
+        
          configureBindings();
          autoChooser = AutoBuilder.buildAutoChooser();
          SmartDashboard.putData("Auto Chooser", autoChooser);

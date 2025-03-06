@@ -7,7 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "From Center"
+            "pathName": "New Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4Elevtor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
           }
         }
       ]
