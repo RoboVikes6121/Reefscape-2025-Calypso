@@ -78,19 +78,20 @@ public class RobotContainer {
      //private final Command alignCommand = new AlignCommand(m_visionSubsystem, drivetrain);
                     
                     
-     public RobotContainer() {
+     public RobotContainer() {     
             
-    
-            
+        //register named commands
         NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(.5));
         NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("L4Elevtor", new L4Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         
+
+        //in 2024 these 2 lines were under configure button bindings
+        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        SmartDashboard.putData("Auto Mode", autoChooser);
         
          configureBindings();
-         autoChooser = AutoBuilder.buildAutoChooser();
-         SmartDashboard.putData("Auto Chooser", autoChooser);
-          
+        
         }
 
     
