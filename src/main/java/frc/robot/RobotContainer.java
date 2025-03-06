@@ -54,9 +54,10 @@ public class RobotContainer {
     private static final ElevatorSubsystem m_followerElevatorMotor = new ElevatorSubsystem();
     private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
     private static final WristSubsystem m_wristMotor = new WristSubsystem();
+    //private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
     private SendableChooser<Command> autoChooser;
                 
-    private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+    
     
                 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -91,6 +92,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
         
          configureBindings();
+      
         
         }
 
