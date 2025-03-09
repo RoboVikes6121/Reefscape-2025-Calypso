@@ -41,22 +41,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Path 4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Stow"
-                }
-              }
-            ]
+            "pathName": "Path 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
           }
         }
       ]
