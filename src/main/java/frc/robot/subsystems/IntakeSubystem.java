@@ -25,7 +25,7 @@ public class IntakeSubystem extends SubsystemBase {
         m_intakeMotor.getConfigurator().apply(slot0Configs);
 
         intakeCurrentLimits.withStatorCurrentLimitEnable(true);
-        intakeCurrentLimits.withStatorCurrentLimit(40);
+        intakeCurrentLimits.withStatorCurrentLimit(110);
 
         m_intakeMotor.getConfigurator().apply(intakeCurrentLimits);
     }
@@ -36,7 +36,7 @@ public class IntakeSubystem extends SubsystemBase {
     public void dropCoral() {
 
         //set voltage output
-        m_intakeMotor.setVoltage(-1.5);
+        m_intakeMotor.setVoltage(-3);
     }
 
     public void dropAlgae() {
