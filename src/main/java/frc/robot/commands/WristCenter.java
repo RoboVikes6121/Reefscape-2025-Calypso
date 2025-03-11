@@ -10,7 +10,7 @@ public class WristCenter extends Command {
 
 WristSubsystem m_wrist;
 
-double wristCenterPosition = 4;
+double wristCenterPosition = 3;
 
 public WristCenter(WristSubsystem m_wrist) {
 
