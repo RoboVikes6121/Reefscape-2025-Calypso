@@ -11,7 +11,9 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -24,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AlgaeL2Elevator;
 import frc.robot.commands.AlgaeL3Elevator;
-import frc.robot.commands.AlignCommand;
+import frc.robot.commands.AlignToReef;
 import frc.robot.commands.Barge;
 import frc.robot.commands.BargeUnYeet;
 import frc.robot.commands.BargeYeet;
@@ -40,10 +42,11 @@ import frc.robot.commands.WristCenter;
 import frc.robot.commands.WristInside;
 import frc.robot.commands.L3Elevator;
 import frc.robot.commands.L4Elevator;
+import frc.robot.constants.LimelightConfig;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.LimelightHelpers;
 
@@ -54,14 +57,14 @@ public class RobotContainer {
     private static final ElevatorSubsystem m_followerElevatorMotor = new ElevatorSubsystem();
     private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
     private static final WristSubsystem m_wristMotor = new WristSubsystem();
-    //private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+    private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem(new LimelightConfig("limelight", null));
     private SendableChooser<Command> autoChooser;
                 
     
     
                 
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    public static double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
                 
     //private double MaxSpeed = 5;
 
@@ -76,9 +79,15 @@ public class RobotContainer {
                 
     private final CommandXboxController m_driverController = new CommandXboxController(0);
                 
-     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();        
+     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(); 
+     
+    private final Pose3d limelightPose = new Pose3d(Inches.of(10.5), Inches.of(9.375), Inches.of(11.5),
+      new Rotation3d(0, 0, 0));
 
-     //private final Command alignCommand = new AlignCommand(m_visionSubsystem, drivetrain);
+     private final LimelightSubsystem limelight = new LimelightSubsystem(
+      new LimelightConfig("limelight", limelightPose));
+
+    // private final Command alignCommand = new AlignToReef(m_limelightSubsystem, drivetrain);
                     
                     
      public RobotContainer() {     
@@ -127,7 +136,7 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            //m_driverController.x().whileTrue(new AlignCommand(drivetrain, m_visionSubsystem));
+            m_driverController.x().whileTrue(new AlignToReef(drivetrain, limelight));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
