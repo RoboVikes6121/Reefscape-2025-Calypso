@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 3.4134935897435894,
+        "y": 5.330544871794871
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 3.974772448449878,
+        "y": 4.888788215293997
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "FrontLeftReef2Real"
     },
     {
       "anchor": {
-        "x": 4.147745901639344,
-        "y": 6.560399590163934
+        "x": 1.2307051281997679,
+        "y": 7.06439102563479
       },
       "prevControl": {
-        "x": 3.2007172131147543,
-        "y": 7.303637295081967
+        "x": 1.0250823418095294,
+        "y": 7.206585504139106
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CoralLoadLeft"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -35.94211187138233
+    "rotation": -53.47114463301485
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -56.04890567165468
   },
   "useDefaultConstraints": true
 }

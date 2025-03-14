@@ -33,4 +33,11 @@ public class Constants {
         public static final double kI = .0;
         public static final double kD = .0;
     }
+
+        public static final class limelightConstants {
+        public static String Limelight = "limelight";
+        //public static String rightLimelight = "limelight-right";
+        public static double defaultValue = 0.0;
+    }
+
 }

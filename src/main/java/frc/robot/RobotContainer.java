@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AlgaeL2Elevator;
 import frc.robot.commands.AlgaeL3Elevator;
-import frc.robot.commands.AlignToReef;
+import frc.robot.commands.AutoAlign_Left;
 import frc.robot.commands.Barge;
 import frc.robot.commands.BargeUnYeet;
 import frc.robot.commands.BargeYeet;
@@ -42,11 +42,9 @@ import frc.robot.commands.WristCenter;
 import frc.robot.commands.WristInside;
 import frc.robot.commands.L3Elevator;
 import frc.robot.commands.L4Elevator;
-import frc.robot.constants.LimelightConfig;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubystem;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.LimelightHelpers;
 
@@ -57,7 +55,6 @@ public class RobotContainer {
     private static final ElevatorSubsystem m_followerElevatorMotor = new ElevatorSubsystem();
     private static final IntakeSubystem m_intakeMotor = new IntakeSubystem();
     private static final WristSubsystem m_wristMotor = new WristSubsystem();
-    private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem(new LimelightConfig("limelight", null));
     private SendableChooser<Command> autoChooser;
                 
     
@@ -81,13 +78,6 @@ public class RobotContainer {
                 
      public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(); 
      
-    private final Pose3d limelightPose = new Pose3d(Inches.of(10.5), Inches.of(9.375), Inches.of(11.5),
-      new Rotation3d(0, 0, 0));
-
-     private final LimelightSubsystem limelight = new LimelightSubsystem(
-      new LimelightConfig("limelight", limelightPose));
-
-    // private final Command alignCommand = new AlignToReef(m_limelightSubsystem, drivetrain);
                     
                     
      public RobotContainer() {     
@@ -96,7 +86,11 @@ public class RobotContainer {
         NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(3));
         NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("L4Elevator", new L4Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("AutoAlign_Left",new AutoAlign_Left(drivetrain,0.05,1).withTimeout(1));
+        // NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
+        // NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(2));
         
+
 
         //in 2024 these 2 lines were under configure button bindings
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -136,7 +130,7 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.x().whileTrue(new AlignToReef(drivetrain, limelight));
+            m_driverController.x().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
