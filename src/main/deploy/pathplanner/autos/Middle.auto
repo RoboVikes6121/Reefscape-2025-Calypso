@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle,Start1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle1Backup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlign_Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4Elevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SmallForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

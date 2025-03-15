@@ -12,37 +12,34 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AutoAlign_Left extends Command {
+public class AutoAlign_Right extends Command {
 
     private CommandSwerveDrivetrain drivetrain;
     private RobotCentric limeDrive = new RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private double alignmentSpeed, m_xspeed, m_rotSpeed;
+    private double alignmentSpeed, m_xspeed;
     private int m_pipeline;
 
     // Constructor accepts limeDrive as a parameter from RobotContainer
-    public AutoAlign_Left(CommandSwerveDrivetrain drivetrain, double alignmentSpeed, int pipeline) {
+    public AutoAlign_Right(CommandSwerveDrivetrain drivetrain, double alignmentSpeed, int pipeline) {
         this.drivetrain = drivetrain;
         this.alignmentSpeed = alignmentSpeed;
         this.m_pipeline = pipeline;
-    
         addRequirements(drivetrain);  // Ensure the drivetrain is required for this command
     }
 
     @Override
     public void initialize() {
         System.out.println("Caught auto alignment command");
-        NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.rightLimelight).getEntry("pipeline").setDouble(m_pipeline);
+        NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.leftLimelight).getEntry("pipeline").setDouble(m_pipeline);
     }
 
     @Override
     public void execute() {
-        m_xspeed = NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.rightLimelight).getEntry("tx").getDouble(0.0)*alignmentSpeed;
-       
- 
+        m_xspeed = NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.leftLimelight).getEntry("tx").getDouble(Constants.limelightConstants.defaultValue)*alignmentSpeed;
         System.out.println("Running alignment command");
-        System.out.println("rightLimelight" +m_xspeed);
-        drivetrain.setControl(limeDrive.withVelocityY(-m_xspeed).withVelocityX(0).withRotationalRate(m_rotSpeed));
+        System.out.println("limelight" +m_xspeed);
+        drivetrain.setControl(limeDrive.withVelocityY(-m_xspeed).withVelocityX(0));
         }
 
     @Override
