@@ -17,7 +17,7 @@ public class AutoAlign_Left extends Command {
     private CommandSwerveDrivetrain drivetrain;
     private RobotCentric limeDrive = new RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private double alignmentSpeed, m_xspeed, m_rotSpeed;
+    private double alignmentSpeed, m_xspeed;
     private int m_pipeline;
 
     // Constructor accepts limeDrive as a parameter from RobotContainer
@@ -25,7 +25,6 @@ public class AutoAlign_Left extends Command {
         this.drivetrain = drivetrain;
         this.alignmentSpeed = alignmentSpeed;
         this.m_pipeline = pipeline;
-    
         addRequirements(drivetrain);  // Ensure the drivetrain is required for this command
     }
 
@@ -38,11 +37,9 @@ public class AutoAlign_Left extends Command {
     @Override
     public void execute() {
         m_xspeed = NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.rightLimelight).getEntry("tx").getDouble(0.0)*alignmentSpeed;
-       
- 
         System.out.println("Running alignment command");
-        System.out.println("rightLimelight" +m_xspeed);
-        drivetrain.setControl(limeDrive.withVelocityY(-m_xspeed).withVelocityX(0).withRotationalRate(m_rotSpeed));
+        System.out.println("limelight" +m_xspeed);
+        drivetrain.setControl(limeDrive.withVelocityY(-m_xspeed).withVelocityX(0));
         }
 
     @Override

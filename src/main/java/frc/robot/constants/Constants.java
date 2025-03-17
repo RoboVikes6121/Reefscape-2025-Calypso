@@ -34,9 +34,9 @@ public class Constants {
         public static final double kD = .0;
     }
 
-        public static final class limelightConstants {
-        public static String leftLimelight = "LeftLimelight";
-        public static String rightLimelight = "RightLimelight";
+    public static final class limelightConstants {
+        public static String leftLimelight = "limelight-left";
+        public static String rightLimelight = "limelight-right";
         public static double defaultValue = 0.0;
     }
 

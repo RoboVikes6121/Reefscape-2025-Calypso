@@ -36,6 +36,7 @@ import frc.robot.commands.DropCoral;
 import frc.robot.commands.DropntCoral;
 import frc.robot.commands.AlgaeOut;
 import frc.robot.commands.AutoAlign_Left;
+import frc.robot.commands.AutoAlign_Right;
 import frc.robot.commands.Stow;
 import frc.robot.commands.StowAlgae;
 import frc.robot.commands.StowButDefautCommand;
@@ -132,7 +133,8 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.x().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
+            m_driverController.leftBumper().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
+            m_driverController.rightBumper().whileTrue(new AutoAlign_Right(drivetrain, 0.05,0));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
