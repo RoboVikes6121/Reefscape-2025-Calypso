@@ -1,22 +1,38 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+
+import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.constants.Constants.IntakeConstants;
+
 
 public class IntakeSubystem extends SubsystemBase {
     TalonFX m_intakeMotor;
     VoltageOut m_request = new VoltageOut(0);
+
+    CANrange m_intakeSensor;
+    Trigger m_hasGamePiece;
+
 
     CurrentLimitsConfigs intakeCurrentLimits = new CurrentLimitsConfigs();
 
     public IntakeSubystem () {
         m_intakeMotor = new TalonFX(IntakeConstants.IntakeMotorId, "Canivore");
         var slot0Configs = new Slot0Configs();
+       
+        CANrangeConfiguration CANrangeConfiguration = new CANrangeConfiguration();
+        CANrangeConfiguration.ProximityParams.ProximityThreshold = IntakeConstants.PROXIMITY_THRESHOLD;
+
 
         slot0Configs.kP = IntakeConstants.kP;
         slot0Configs.kI = IntakeConstants.kI;
@@ -28,11 +44,26 @@ public class IntakeSubystem extends SubsystemBase {
         intakeCurrentLimits.withStatorCurrentLimit(110);
 
         m_intakeMotor.getConfigurator().apply(intakeCurrentLimits);
+
+        m_intakeSensor= new CANrange(IntakeConstants.SensorId, "Canivore");
+        m_intakeSensor.getConfigurator().apply(CANrangeConfiguration);
+        m_hasGamePiece = new Trigger(this::isDetected).debounce(IntakeConstants.DEBOUNCE);
+        }
+
+    public Trigger hasCoral(){
+        return m_hasGamePiece;
     }
 
-    @Override
-    public void periodic() {}
+    
 
+    @Override
+    public void periodic() {
+       SmartDashboard.putBoolean("hasGamePiece", isDetected());
+
+    }
+    private boolean isDetected(){
+        return m_intakeSensor.getIsDetected().getValue();
+    }
     public void dropCoral() {
 
         //set voltage output
@@ -52,7 +83,6 @@ public class IntakeSubystem extends SubsystemBase {
     public void algeaOut(){
 
         //Set Voltage output
-
         m_intakeMotor.setVoltage(3);
     }
 

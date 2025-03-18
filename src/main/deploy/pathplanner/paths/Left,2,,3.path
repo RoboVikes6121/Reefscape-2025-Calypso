@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2307051281997679,
-        "y": 7.06439102563479
+        "x": 1.082,
+        "y": 7.291
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.473231701301592,
-        "y": 5.989343222150548
+        "x": 0.13377387073017533,
+        "y": 8.63275862500301
       },
-      "isLocked": true,
-      "linkedName": "CoralLoadLeft"
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": true,
-      "linkedName": "FrontLrftReef2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

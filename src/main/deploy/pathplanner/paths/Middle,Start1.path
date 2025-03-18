@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.757082180745776,
+        "x": 5.557,
         "y": 3.9785576923076924
       },
       "prevControl": {
-        "x": 5.4832745982639635,
+        "x": 5.283192417518185,
         "y": 3.9722549500396767
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BackBackCoral1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

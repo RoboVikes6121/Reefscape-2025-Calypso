@@ -11,33 +11,34 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "1Backup"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlign_Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "L4Elevator"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left,1,,2"
+            "pathName": "BackLeftForward"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Left,2,,3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3Backup"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left,3,,4"
+            "name": "DropCoral"
           }
         }
       ]

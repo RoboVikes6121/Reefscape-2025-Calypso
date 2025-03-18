@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.PointTowardsZoneTrigger;
+import com.pathplanner.lib.path.PointTowardsZone;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose3d;
@@ -90,9 +92,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("L4Elevator", new L4Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("AutoAlign_Left",new AutoAlign_Left(drivetrain,0.05,1).withTimeout(1));
-        // NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
-        // NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(2));
-        
+        NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(1));
+        //new PointTowardsZoneTrigger("AutoAlign_Left").whileTrue();
 
 
         //in 2024 these 2 lines were under configure button bindings
@@ -133,8 +135,8 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.leftBumper().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
-            m_driverController.rightBumper().whileTrue(new AutoAlign_Right(drivetrain, 0.05,0));
+            m_driverController.leftTrigger().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
+            m_driverController.rightTrigger().whileTrue(new AutoAlign_Right(drivetrain, 0.05,0));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     

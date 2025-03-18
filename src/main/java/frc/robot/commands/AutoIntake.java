@@ -3,17 +3,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubystem;
 
-public class DropntCoral extends Command {
+public class AutoIntake extends Command {
 
     IntakeSubystem m_intakeMotor;
-  
+    IntakeSubystem m_intakeSensor;
+    boolean getIntakeSensor;
 
-
-    public DropntCoral(IntakeSubystem m_intakeMotor) {
+    public AutoIntake(IntakeSubystem m_intakeMotor, IntakeSubystem m_intakeSensor) {
         this.m_intakeMotor = m_intakeMotor;
+        this.m_intakeMotor = m_intakeSensor;
 
 
-        addRequirements(m_intakeMotor);
+        addRequirements(m_intakeMotor, m_intakeSensor);
     }
 
     // Called when the command is initially scheduled.
@@ -24,8 +25,13 @@ public class DropntCoral extends Command {
   @Override
   public void execute() {
 
-  m_intakeMotor.InCoral();
- 
+    //if (m_intakeSensor.getIntakeSensor() = true) {
+        m_intakeMotor.dropCoral();
+  //  } else {
+
+    //}
+
+  
 
 }
   // Called once the command ends or is interrupted.

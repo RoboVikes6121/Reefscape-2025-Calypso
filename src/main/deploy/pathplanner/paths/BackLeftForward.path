@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.557,
-        "y": 3.9785576923076924
+        "x": 5.347,
+        "y": 5.098
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.806823260857746,
-        "y": 3.987956539817468
+        "x": 4.986885245901534,
+        "y": 4.654354508203551
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.05554487179487,
-        "y": 3.9785576923076924
+        "x": 5.034836065573664,
+        "y": 4.666342213121583
       },
       "prevControl": {
-        "x": 5.805624541213891,
-        "y": 3.9722467207268477
-      },
-      "nextControl": {
-        "x": 6.305465202375849,
-        "y": 3.984868663888537
-      },
-      "isLocked": true,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.6651639344262295,
-        "y": 3.9785576923076924
-      },
-      "prevControl": {
-        "x": 6.415251578229747,
-        "y": 3.9719384612101583
+        "x": 5.406454918032681,
+        "y": 5.097899590170764
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,8 +30,26 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 5.1,
+        "y": 4.75
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.25,
+      "maxWaypointRelativePos": 0.75,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "DropCoral",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.0,
@@ -58,13 +60,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.36245823584642
+    "rotation": -125.75388725443678
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.97037093718745
+    "rotation": -124.50852298766841
   },
   "useDefaultConstraints": true
 }
