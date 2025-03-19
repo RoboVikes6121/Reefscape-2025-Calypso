@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.347,
-        "y": 5.098
+        "x": 5.7412275636730525,
+        "y": 5.7498681941177106
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.986885245901534,
-        "y": 4.654354508203551
+        "x": 5.381112809574586,
+        "y": 5.306222702321262
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LEFTBACKPREALIGN"
     },
     {
       "anchor": {
-        "x": 5.034836065573664,
-        "y": 4.666342213121583
+        "x": 5.111818354941449,
+        "y": 4.824137434158407
       },
       "prevControl": {
-        "x": 5.406454918032681,
-        "y": 5.097899590170764
+        "x": 5.483437207400466,
+        "y": 5.255694811207588
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LEFTBACK1"
     }
   ],
   "rotationTargets": [],
@@ -44,7 +44,7 @@
   ],
   "eventMarkers": [
     {
-      "name": "DropCoral",
+      "name": "AutoAlign_Left",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
@@ -60,13 +60,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -125.75388725443678
+    "rotation": -121.01266207412827
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -124.50852298766841
+    "rotation": -120.36066533769298
   },
   "useDefaultConstraints": true
 }

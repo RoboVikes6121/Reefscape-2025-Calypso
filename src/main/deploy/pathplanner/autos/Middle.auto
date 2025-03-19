@@ -45,6 +45,12 @@
           "data": {
             "name": "Stow"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBackToLoad"
+          }
         }
       ]
     }
