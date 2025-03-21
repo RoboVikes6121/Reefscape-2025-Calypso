@@ -67,7 +67,7 @@ public class IntakeSubystem extends SubsystemBase {
     public void dropCoral() {
 
         //set voltage output
-        m_intakeMotor.setVoltage(-3);
+        m_intakeMotor.setVoltage(-1.5);
     }
 
     public void dropAlgae() {
@@ -77,7 +77,7 @@ public class IntakeSubystem extends SubsystemBase {
     public void InCoral() {
 
         //set voltage output
-        m_intakeMotor.setVoltage(2);
+        m_intakeMotor.setVoltage(1.5);
     }
 
     public void algeaOut(){

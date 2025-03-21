@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.660873287132289,
-        "y": 5.655246574264575
+        "x": 5.589486489118183,
+        "y": 3.979258663019687
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.830371513527607,
-        "y": 5.471479462819569
+        "x": 6.190505355545551,
+        "y": 4.02769694123862
+      },
+      "isLocked": false,
+      "linkedName": "DROPEDCORAL"
+    },
+    {
+      "anchor": {
+        "x": 6.4071429956709265,
+        "y": 4.052971332586581
+      },
+      "prevControl": {
+        "x": 6.655426600196852,
+        "y": 4.0237266454859535
+      },
+      "nextControl": {
+        "x": 6.1588593911450005,
+        "y": 4.082216019687208
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0822500000000002,
-        "y": 7.29125
+        "x": 5.687845502326237,
+        "y": 4.094639779127811
       },
       "prevControl": {
-        "x": 1.6656885576208775,
-        "y": 6.465682474701878
+        "x": 5.949659141241317,
+        "y": 4.0920676596743695
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": null
+      "isLocked": false,
+      "linkedName": "BACKBACKTOLOAD"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.47114463301485
+    "rotation": -179.88738312816116
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -120.36066533769298
+    "rotation": 179.97037093718745
   },
   "useDefaultConstraints": true
 }

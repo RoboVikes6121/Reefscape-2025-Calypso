@@ -88,12 +88,16 @@ public class RobotContainer {
      public RobotContainer() {     
             
         //register named commands
-        NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(3));
+        NamedCommands.registerCommand("DropCoral", new DropCoral(m_intakeMotor).withTimeout(1));
         NamedCommands.registerCommand("Stow", new Stow(m_leaderElevatorMotor, m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("L4Elevator", new L4Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("L2Algae", new AlgaeL2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("Barge", new Barge(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
+        NamedCommands.registerCommand("BargeYeet", new BargeYeet(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("AutoAlign_Left",new AutoAlign_Left(drivetrain,0.05,1).withTimeout(1));
         NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(1));
+        NamedCommands.registerCommand("AlgaeIntake", new DropntCoral(m_intakeMotor).withTimeout(1));
         //new PointTowardsZoneTrigger("AutoAlign_Left").whileTrue();
 
 
