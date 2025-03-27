@@ -1,4 +1,4 @@
-package frc.robot.commands;
+/*package frc.robot.commands;
 
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.constants.Constants;
@@ -52,4 +52,4 @@ public class AutoAlign_Right extends Command {
     public void end(boolean interrupted) {
         // Stop robot motion after alignment
 }
-}
+} */

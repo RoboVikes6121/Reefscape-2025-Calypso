@@ -8,40 +8,29 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.656058772787403,
-        "y": 7.523423410142213
+        "x": 6.89390849587304,
+        "y": 7.328352291821952
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.111818354941449,
-        "y": 4.824137434158407
+        "x": 4.925069519011557,
+        "y": 5.1381123041849115
       },
       "prevControl": {
-        "x": 5.616370592882209,
-        "y": 6.035285439506572
+        "x": 5.403638678826248,
+        "y": 6.010926602395726
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "LEFTBACK1"
+      "linkedName": "LEFTGOINGTOBACKUP"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.7,
-        "y": 4.3
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.28089128966914056,
-      "maxWaypointRelativePos": 0.6563133018230952,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "AutoAlign_Left",
@@ -60,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -121.01266207412827
+    "rotation": -120.7388723769819
   },
   "reversed": false,
   "folder": null,

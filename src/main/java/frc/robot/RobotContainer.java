@@ -13,9 +13,11 @@ import com.pathplanner.lib.events.PointTowardsZoneTrigger;
 import com.pathplanner.lib.path.PointTowardsZone;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -24,12 +26,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AlgaeL2Elevator;
 import frc.robot.commands.AlgaeL3Elevator;
-//import frc.robot.commands.AutoAlign_Left;
-import frc.robot.commands.AutoAlign_Left;
 import frc.robot.commands.Barge;
 import frc.robot.commands.BargeUnYeet;
 import frc.robot.commands.BargeYeet;
@@ -37,8 +40,7 @@ import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DropCoral;
 import frc.robot.commands.DropntCoral;
 import frc.robot.commands.AlgaeOut;
-import frc.robot.commands.AutoAlign_Left;
-import frc.robot.commands.AutoAlign_Right;
+//import frc.robot.commands.AlignToReefTagRelative;
 import frc.robot.commands.Stow;
 import frc.robot.commands.StowAlgae;
 import frc.robot.commands.StowButDefautCommand;
@@ -94,11 +96,26 @@ public class RobotContainer {
         NamedCommands.registerCommand("L2Algae", new AlgaeL2Elevator(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("Barge", new Barge(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("BargeYeet", new BargeYeet(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
-        NamedCommands.registerCommand("AutoAlign_Left",new AutoAlign_Left(drivetrain,0.05,1).withTimeout(1));
+        NamedCommands.registerCommand("AutoAlign", new InstantCommand().withTimeout(2));
         NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(1));
         NamedCommands.registerCommand("AlgaeIntake", new DropntCoral(m_intakeMotor).withTimeout(1));
         //new PointTowardsZoneTrigger("AutoAlign_Left").whileTrue();
+
+        Pose2d latestMt1 = LimelightHelpers.getBotPose2d_wpiBlue("limelight");
+        new SequentialCommandGroup(
+            new InstantCommand(() -> drivetrain.resetPose(new Pose2d(new Translation2d(0, 0),latestMt1.getRotation()))),
+            (new InstantCommand(() -> System.out.println(1))),
+            (new WaitCommand(.25)),
+            (new InstantCommand(() -> drivetrain.resetPose(new Pose2d(new Translation2d(0, 0),latestMt1.getRotation())))),
+            (new InstantCommand(() -> System.out.println(1))),
+            (new WaitCommand(.25)),
+            (new InstantCommand(() -> drivetrain.resetPose(new Pose2d(new Translation2d(0, 0),latestMt1.getRotation())))),
+            (new InstantCommand(() -> System.out.println(1))),
+            (new WaitCommand(.25)),
+            (new InstantCommand(() -> drivetrain.resetPose(new Pose2d(new Translation2d(0, 0),latestMt1.getRotation())))),
+            (new InstantCommand(() -> System.out.println(1)))).ignoringDisable(true).schedule();
+            
 
 
         //in 2024 these 2 lines were under configure button bindings
@@ -139,8 +156,9 @@ public class RobotContainer {
             m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
             //atempt to align to April Tag
-            m_driverController.leftTrigger().whileTrue(new AutoAlign_Left(drivetrain, 0.05,0));
-            m_driverController.rightTrigger().whileTrue(new AutoAlign_Right(drivetrain, 0.05,0));
+            m_driverController.rightTrigger().onTrue(new InstantCommand(() -> SetDriveTrainSpeed(1.5)));
+            //m_driverController.leftTrigger().whileTrue(new AlignToReefTagRelative(true, drivetrain));
+            //m_driverController.rightTrigger().whileTrue(new AlignToReefTagRelative(false, drivetrain));
     
             drivetrain.registerTelemetry(logger::telemeterize);
     
@@ -173,5 +191,8 @@ public class RobotContainer {
         return autoChooser.getSelected();
       }
 
-
+      public void SetDriveTrainSpeed(double speed) {
+        MaxSpeed = speed; 
+        drive.withDeadband(MaxSpeed * .1);
+      }
 }

@@ -22,6 +22,7 @@ public class IntakeSubystem extends SubsystemBase {
 
     CANrange m_intakeSensor;
     Trigger m_hasGamePiece;
+    //boolean coralDetected = isDetected();
 
 
     CurrentLimitsConfigs intakeCurrentLimits = new CurrentLimitsConfigs();
@@ -54,8 +55,6 @@ public class IntakeSubystem extends SubsystemBase {
         return m_hasGamePiece;
     }
 
-    
-
     @Override
     public void periodic() {
        SmartDashboard.putBoolean("hasGamePiece", isDetected());
@@ -63,8 +62,16 @@ public class IntakeSubystem extends SubsystemBase {
     }
     private boolean isDetected(){
         return m_intakeSensor.getIsDetected().getValue();
+
+        
     }
     public void dropCoral() {
+
+        //if (coralDetected = false) {
+        //    m_intakeMotor.setVoltage(-1.5);
+        //} else {
+        //    m_intakeMotor.setVoltage(0);
+        //}
 
         //set voltage output
         m_intakeMotor.setVoltage(-1.5);
