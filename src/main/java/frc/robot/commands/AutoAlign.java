@@ -1,4 +1,4 @@
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.constants.Constants;
@@ -12,7 +12,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AutoAlign_Right extends Command {
+public class AutoAlign extends Command {
 
     private CommandSwerveDrivetrain drivetrain;
     private RobotCentric limeDrive = new RobotCentric()
@@ -21,7 +21,7 @@ public class AutoAlign_Right extends Command {
     private int m_pipeline;
 
     // Constructor accepts limeDrive as a parameter from RobotContainer
-    public AutoAlign_Right(CommandSwerveDrivetrain drivetrain, double alignmentSpeed, int pipeline) {
+    public AutoAlign(CommandSwerveDrivetrain drivetrain, double alignmentSpeed, int pipeline) {
         this.drivetrain = drivetrain;
         this.alignmentSpeed = alignmentSpeed;
         this.m_pipeline = pipeline;
@@ -31,12 +31,12 @@ public class AutoAlign_Right extends Command {
     @Override
     public void initialize() {
         System.out.println("Caught auto alignment command");
-        NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.leftLimelight).getEntry("pipeline").setDouble(m_pipeline);
+        NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.Limelight).getEntry("pipeline").setDouble(m_pipeline);
     }
 
     @Override
     public void execute() {
-        m_xspeed = NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.leftLimelight).getEntry("tx").getDouble(Constants.limelightConstants.defaultValue)*alignmentSpeed;
+        m_xspeed = NetworkTableInstance.getDefault().getTable(Constants.limelightConstants.Limelight).getEntry("tx").getDouble(Constants.limelightConstants.defaultValue)*alignmentSpeed;
         System.out.println("Running alignment command");
         System.out.println("limelight" +m_xspeed);
         drivetrain.setControl(limeDrive.withVelocityY(-m_xspeed).withVelocityX(0));
@@ -52,4 +52,4 @@ public class AutoAlign_Right extends Command {
     public void end(boolean interrupted) {
         // Stop robot motion after alignment
 }
-} */
+} 

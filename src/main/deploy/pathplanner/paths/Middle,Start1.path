@@ -8,30 +8,37 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.86752715298065,
-        "y": 3.9961554273484214
+        "x": 7.5903094952119945,
+        "y": 3.9868998734008922
       },
       "isLocked": true,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.589486489118183,
-        "y": 3.979258663019687
+        "x": 5.670503644545662,
+        "y": 3.9811470817924324
       },
       "prevControl": {
-        "x": 5.315678906636368,
-        "y": 3.972955920751671
+        "x": 5.396696062063847,
+        "y": 3.9748443395244166
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "DROPEDCORAL"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "AutoAlign",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.5,

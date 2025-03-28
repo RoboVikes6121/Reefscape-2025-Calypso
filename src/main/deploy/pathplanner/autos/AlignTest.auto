@@ -5,9 +5,70 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Middle,Start1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle1Backup"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "AutoAlign"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4Elevator"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stow"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Grab Algae"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "L2Algae"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle to barge"
           }
         }
       ]

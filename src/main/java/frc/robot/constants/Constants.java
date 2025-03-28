@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
 
@@ -33,29 +34,20 @@ public class Constants {
         public static final double PROXIMITY_THRESHOLD = 0.1;
         public static final double DEBOUNCE = 0.00;
     }
-
-    public static final class aprilTagConstants {
-   
-        public static int REEF_AB_TAGID;
-        public static int REEF_CD_TAGID;
-        public static int REEF_EF_TAGID;
-        public static int REEF_GH_TAGID;
-        public static int REEF_IJ_TAGID;
-        public static int REEF_KL_TAGID;
-
-        public static int CORAL_STATION_LEFT_TAGID;
-        public static int CORAL_STATION_RIGHT_TAGID;
-
-        // beliw in meters
-        public static final double INSIDE_REEF_ZONE_THRESHOLD = 1.6;
-        public static final double AUTO_ADJUST_THRESHOLD = 1.8;
-
-        public static final double CORAL_STATION_OFFSET_HORIZONTAL = 0.3;
-        public static final double CORAL_STATION_OFFSET_VERTICAL = 0.03;
-        public static Translation2d CORAL_STATION_LEFT_OFFSET;
-        public static Translation2d CORAL_STATION_RIGHT_OFFSET;
-
-   
+    
+    
+      
+    
+    public static final class limelightConstants {
+    
+        public static String Limelight = "limelight";
+        public static double defaultValue = 0.0;
+        
     }
+
+       
+
+   
+    
 
 }

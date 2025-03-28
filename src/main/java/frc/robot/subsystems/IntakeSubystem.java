@@ -22,7 +22,7 @@ public class IntakeSubystem extends SubsystemBase {
 
     CANrange m_intakeSensor;
     Trigger m_hasGamePiece;
-    //boolean coralDetected = isDetected();
+    
 
 
     CurrentLimitsConfigs intakeCurrentLimits = new CurrentLimitsConfigs();
@@ -49,7 +49,10 @@ public class IntakeSubystem extends SubsystemBase {
         m_intakeSensor= new CANrange(IntakeConstants.SensorId, "Canivore");
         m_intakeSensor.getConfigurator().apply(CANrangeConfiguration);
         m_hasGamePiece = new Trigger(this::isDetected).debounce(IntakeConstants.DEBOUNCE);
-        }
+    }
+
+    //boolean coralDetected = isDetected();
+        
 
     public Trigger hasCoral(){
         return m_hasGamePiece;
@@ -66,16 +69,16 @@ public class IntakeSubystem extends SubsystemBase {
         
     }
     public void dropCoral() {
-
-        //if (coralDetected = false) {
-        //    m_intakeMotor.setVoltage(-1.5);
-        //} else {
-        //    m_intakeMotor.setVoltage(0);
-        //}
-
-        //set voltage output
         m_intakeMotor.setVoltage(-1.5);
     }
+
+    /*public void intakeCoralAuto() {
+        if (coralDetected = false) {
+            m_intakeMotor.setVoltage(-1.5);
+        } else {
+            m_intakeMotor.setVoltage(0);
+        }
+    } */
 
     public void dropAlgae() {
         m_intakeMotor.setVoltage(-5);
