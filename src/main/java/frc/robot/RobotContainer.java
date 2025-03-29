@@ -101,8 +101,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("BargeYeet", new BargeYeet(m_leaderElevatorMotor,m_wristMotor).withTimeout(2));
         NamedCommands.registerCommand("AutoAlign",new AutoAlign(drivetrain, 0.05, 0).withTimeout(1));
         NamedCommands.registerCommand("WristInside", new WristInside(m_wristMotor).withTimeout(2));
-        NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(1));
-        NamedCommands.registerCommand("AlgaeIntake", new DropntCoral(m_intakeMotor).withTimeout(1));
+        NamedCommands.registerCommand("Intake", new DropCoral(m_intakeMotor).withTimeout(3));
+        NamedCommands.registerCommand("AlgaeIntake", new DropntCoral(m_intakeMotor).withTimeout(2.5));
         
 
        

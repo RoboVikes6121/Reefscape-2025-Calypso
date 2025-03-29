@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 5.7834035111321525,
-        "y": 3.9948791583552543
+        "y": 3.979
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.494967775325178,
-        "y": 3.9887135978474912
+        "y": 3.972834439492237
       },
       "isLocked": true,
       "linkedName": "BACKUPMIDDLE"

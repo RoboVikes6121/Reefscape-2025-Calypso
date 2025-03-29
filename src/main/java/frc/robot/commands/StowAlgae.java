@@ -13,8 +13,8 @@ public class StowAlgae extends Command {
 ElevatorSubsystem m_elevator;
 WristSubsystem m_wrist;
 
-double L1elevatorPosition = .0;
-double wristCenterPosition = 17;
+double L1elevatorPosition = 8;
+double wristCenterPosition = 10;
 
 public StowAlgae(ElevatorSubsystem m_elevator, WristSubsystem m_wrist) {
 
